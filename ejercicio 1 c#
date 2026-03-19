@@ -1,0 +1,40 @@
+using System;
+
+class MatrizDibujo
+{
+    static void Main()
+    {
+        int n = 4;
+        string[,] matriz = new string[n, n];
+
+       
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                if (i == j || i + j == n - 1)
+                    matriz[i, j] = " O ";
+                else
+                    matriz[i, j] = " . ";
+            }
+        }
+
+     
+        Console.WriteLine("Matriz 4x4 con X:");
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+                Console.Write(matriz[i, j] + "\t");
+
+            Console.WriteLine();
+        }
+    }
+}
+
+
+
+
+
+        Console.ReadLine();
+    }
+}
