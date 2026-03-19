@@ -1,0 +1,83 @@
+//Ejercicio
+//
+//Desarrollar un programa que permita calcular la nómina de 50 empleados, guarde los datos en una matriz y muestre el salario neto en un vector
+using System;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        const int N = 50;
+        const double SALARIO_MINIMO = 2000000;
+        double[,] empleados = new double[N, 3]; // [SalarioBase, Impuestos, Deducciones]
+        double[] salarioNeto = new double[N];
+
+        // Solicitar datos al usuario
+        Console.WriteLine("=====NOMINA DE 50 EMPLEADOS - INGRESO DE DATOS=====");
+       
+
+        for (int i = 0; i < N; i++)
+        {
+            Console.WriteLine($"\n--- EMPLEADO {i + 1} ---");
+           
+            // Solicitar salario base
+            Console.Write("Ingrese salario base: $");
+            while (!double.TryParse(Console.ReadLine(), out empleados[i, 0]) || empleados[i, 0] < 0)
+            {
+                Console.Write("Error. Ingrese un valor válido: $");
+            }
+
+            // Solicitar impuestos
+            Console.Write("Ingrese impuestos: $");
+            while (!double.TryParse(Console.ReadLine(), out empleados[i, 1]) || empleados[i, 1] < 0)
+            {
+                Console.Write(" Error. Ingrese un valor válido: $");
+            }
+
+            // Solicitar deducciones
+            Console.Write("Ingrese deducciones: $");
+            while (!double.TryParse(Console.ReadLine(), out empleados[i, 2]) || empleados[i, 2] < 0)
+            {
+                Console.Write("
+Error. Ingrese un valor válido: $");
+            }
+
+            // Calcular salario neto
+            salarioNeto[i] = Math.Round(empleados[i, 0] - empleados[i, 1] - empleados[i, 2], 2);
+        }
+
+        // Mostrar matriz
+        Console.WriteLine("=====║RESUMEN DE NOMINA====");            
+        Console.WriteLine($"{"ID",-5} {"Salario Base",-15} {"Impuestos",-15} {"Deducciones",-15} {"Salario Neto",-15}");
+        Console.WriteLine(new string('-', 70));
+
+        for (int i = 0; i < N; i++)
+        {
+            // Resaltar en rojo si el salario neto es menor a 2 millones
+            if (salarioNeto[i] < SALARIO_MINIMO)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"{i+1,-5} ${empleados[i, 0],-14:F2} ${empleados[i, 1],-14:F2} ${empleados[i, 2],-14:F2} ${salarioNeto[i],-14:F2}");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine($"{i+1,-5} ${empleados[i, 0],-14:F2} ${empleados[i, 1],-14:F2} ${empleados[i, 2],-14:F2} ${salarioNeto[i],-14:F2}");
+            }
+        }
+
+        // Estadísticas
+        Console.WriteLine("\n" + new string('=', 70));
+        Console.WriteLine($"Promedio Neto:  ${salarioNeto.Average():F2}");
+        Console.WriteLine($"Máximo Neto:    ${salarioNeto.Max():F2}");
+        Console.WriteLine($"Mínimo Neto:    ${salarioNeto.Min():F2}");
+        Console.WriteLine($"Total Nómina:   ${salarioNeto.Sum():F2}");
+        // Contar empleados con salario menor a 2 millones
+        int empleadosBajoPeso = salarioNeto.Count(s => s < SALARIO_MINIMO);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Empleados < $2.000.000: {empleadosBajoPeso}");
+        Console.ResetColor();
+        Console.WriteLine(new string('=', 70));
+    }
+}
