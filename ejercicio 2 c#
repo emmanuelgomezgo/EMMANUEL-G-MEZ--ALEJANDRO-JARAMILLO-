@@ -1,0 +1,67 @@
+using System;
+class TrianguloClasificador
+{
+    static void Main()
+    {
+        Console.WriteLine("=== Clasificador de Triángulos ===");
+        Console.WriteLine();
+
+        Console.Write("Ingresa el lado A: ");
+        double a = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Ingresa el lado B: ");
+        double b = Convert.ToDouble(Console.ReadLine());
+
+        Console.Write("Ingresa el lado C: ");
+        double c = Convert.ToDouble(Console.ReadLine());
+
+        Console.WriteLine();
+
+       
+        if (a <= 0 || b <= 0 || c <= 0)
+        {
+            Console.WriteLine("Error: los lados deben ser mayores que cero.");
+        }
+        else if (a + b <= c || a + c <= b || b + c <= a)
+        {
+            Console.WriteLine("Error: esos lados no forman un triángulo válido.");
+        }
+        else
+        {
+            Console.WriteLine("Lados: A=" + a + "  B=" + b + "  C=" + c);
+            Console.WriteLine();
+
+           
+            if (a == b || b == c || a == c)
+            {
+                Console.WriteLine("El triángulo es: ISÓSCELES (dos lados iguales)");
+            }
+            else
+            {
+             
+                double[] lados = { a, b, c };
+                Array.Sort(lados);
+                double ladoMayor = lados[2];
+                double lado1     = lados[0];
+                double lado2     = lados[1];
+
+               
+                double cosAngulo = (lado1 * lado1 + lado2 * lado2 - ladoMayor * ladoMayor)
+                                   / (2 * lado1 * lado2);
+
+                if (Math.Abs(cosAngulo) < 0.0001)
+                {
+                    Console.WriteLine("El triángulo es: RECTÁNGULO (tiene un ángulo de 90°)");
+                }
+                else
+                {
+                    Console.WriteLine("El triángulo es: ESCALENO (todos los lados son diferentes)");
+                }
+            }
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Presiona Enter para salir...");
+        Console.ReadLine();
+    }
+}
